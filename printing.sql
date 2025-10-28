@@ -1,0 +1,113 @@
+-- use printing;
+-- CREATE TABLE Authors (
+--     AuthorID INT PRIMARY KEY,
+--     FirstName VARCHAR(50) NOT NULL,
+--     LastName VARCHAR(50) NOT NULL,
+--     Country VARCHAR(50)
+-- );
+-- CREATE TABLE Books (
+--     BookID INT PRIMARY KEY,
+--     Title VARCHAR(100) NOT NULL,
+--     AuthorID INT,
+--     CopiesSold BIGINT,
+--     PublicationYear INT,
+--     FOREIGN KEY (AuthorID) REFERENCES Authors(AuthorID)
+-- );
+-- INSERT INTO Authors (AuthorID, FirstName, LastName, Country) VALUES
+-- (1, 'Jane', 'Austen', 'UK'),
+-- (2, 'George', 'Orwell', 'UK'),
+-- (3, 'Mark', 'Twain', 'USA'),
+-- (4, 'Toni', 'Morrison', 'USA'),
+-- (5, 'Leo', 'Tolstoy', 'Russia');
+-- INSERT INTO Books (BookID, Title, AuthorID, CopiesSold, PublicationYear) VALUES
+-- (101, 'Pride and Prejudice', 1, 25000000, 1813),
+-- (102, '1984', 2, 30000000, 1949),
+-- (103, 'Animal Farm', 2, 15000000, 1945),
+-- (104, 'Beloved', 4, 1000000, 1987),
+-- (105, 'The Adventures of Tom Sawyer', 3, 12000000, 1876),
+-- (106, 'War and Peace', 5, 10000000, 1869),
+-- (107, 'Emma', 1, 8000000, 1815),
+-- (108, 'The Grapes of Wrath', NULL, 1000000, 1939);
+-- SELECT
+--     Title,
+--     PublicationYear
+-- FROM
+--     Books
+-- WHERE
+--     AuthorID IN (
+--         SELECT
+--             AuthorID
+--         FROM
+--             Authors
+--         WHERE
+--             Country = 'USA'
+--     );
+-- SELECT
+--     Title,
+--     CopiesSold
+-- FROM
+--     Books
+-- WHERE
+--     CopiesSold > (
+--         SELECT
+--             AVG(CopiesSold)
+--         FROM
+--             Books
+--     )
+-- ORDER BY
+--     CopiesSold DESC;
+-- SELECT
+--     CONCAT(FirstName, ' ', LastName) AS AuthorName,
+--     Country
+-- FROM
+--     Authors AS A1
+-- WHERE
+--     EXISTS (
+--         SELECT
+--             1
+--         FROM
+--             Books AS B1
+--         WHERE
+--             B1.AuthorID = A1.AuthorID
+--         GROUP BY
+--             B1.AuthorID
+--         HAVING
+--             COUNT(B1.BookID) > 1
+--     );
+-- SELECT
+--     CONCAT(FirstName, ' ', LastName) AS AuthorName,
+--     Country,
+--     (
+--         SELECT
+--             COUNT(BookID)
+--         FROM
+--             Books B
+--         WHERE
+--             B.AuthorID = A.AuthorID  
+--     ) AS TotalBooksPublished
+-- FROM
+--     Authors A
+-- ORDER BY
+--     TotalBooksPublished DESC, AuthorName;
+-- SELECT
+--     A.FirstName,
+--     A.LastName,
+--     T.TotalSales
+-- FROM
+--     Authors A
+-- INNER JOIN
+--     (
+--         SELECT
+--             AuthorID,
+--             SUM(CopiesSold) AS TotalSales
+--         FROM
+--             Books
+--         GROUP BY
+--             AuthorID
+--         ORDER BY
+--             TotalSales DESC
+--         LIMIT 1 
+--     ) AS T 
+-- ON
+--     A.AuthorID = T.AuthorID;
+
