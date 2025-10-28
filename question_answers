@@ -1,0 +1,40 @@
+ Interview Questions & Answers
+
+## 1. What is a subquery?
+A **subquery** (or inner query or nested query) is a query embedded inside another SQL query. It is enclosed in parentheses and is executed first to return data that is then used by the outer query. [cite_start]Subqueries can be used in the SELECT, FROM, or WHERE clauses. [cite: 13, 16]
+
+## 2. Difference between subquery and join?
+* **JOINs** combine columns from two or more tables based on a common field to return a single, unified result set. [cite_start]They are generally more performant for combining data. [cite: 14]
+* **Subqueries** are primarily used for **filtering** or **calculating** a single value (or set of values) that the main query needs. [cite_start]They are often used when data from the main table needs to be compared against an aggregated or filtered result from another table. [cite: 13, 17]
+
+## 3. What is a correlated subquery?
+A **correlated subquery** is an inner query that relies on the outer query for its values. It executes **once for every row** processed by the outer query. It is "correlated" because its execution is dependent on the data from the outer query, making it less efficient than a non-correlated subquery, which runs only once.
+
+## 4. Can subqueries return multiple rows?
+Yes. Subqueries can return:
+* **A single value (Scalar)**: Used in the `SELECT` clause or with comparison operators (`=`, `>`, `<`).
+* [cite_start]**A single column of multiple rows (List)**: Used with operators like `IN`, `ANY`, or `ALL`. [cite: 14]
+* **Multiple columns of multiple rows**: Used only in the `FROM` clause (as a Derived Table).
+
+## 5. How does EXISTS work?
+The **EXISTS** operator checks for the **existence** of any rows returned by the subquery. It returns `TRUE` if the subquery returns at least one row, and `FALSE` otherwise. [cite_start]`EXISTS` is often used with correlated subqueries and is more efficient than `IN` for checking existence because it stops processing as soon as it finds the first match. [cite: 15]
+
+## 6. How is performance affected by subqueries?
+Performance can be negatively affected, especially by **correlated subqueries**, because they execute repeatedly (once per row of the outer query). Non-correlated subqueries and joins are generally more efficient. Often, a well-optimized `JOIN` can replace a subquery, resulting in better performance.
+
+## 7. What is scalar subquery?
+A **scalar subquery** is a subquery that returns a single value (one row and one column). [cite_start]It can be used anywhere a single expression or column value is valid, such as in the `SELECT` list, the `WHERE` clause with a standard comparison operator (`=`, `>`, etc.), or as a function argument. [cite: 15]
+
+## 8. Where can we use subqueries?
+[cite_start]Subqueries can be used in the following clauses: [cite: 16]
+* **SELECT** (must be scalar)
+* **FROM** (creates a derived table)
+* **WHERE** (for filtering with operators like `IN`, `EXISTS`, `=`, `ANY`, `ALL`)
+* **HAVING** (for filtering grouped results)
+* **INSERT**, **UPDATE**, and **DELETE** statements.
+
+## 9. Can a subquery be in the FROM clause?
+Yes. A subquery used in the `FROM` clause creates a temporary, virtual table during query execution. This is known as a **derived table**.
+
+## 10. What is a derived table?
+A **derived table** is the name given to a subquery that is placed in the `FROM` clause of the main query. It acts as a temporary, on-the-fly table. It must always be given an **alias** (e.g., `AS T`) so the outer query can reference its columns.
